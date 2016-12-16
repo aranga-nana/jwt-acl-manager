@@ -42,4 +42,14 @@ var options={
    
 };
 var aclManger = require('jwt-acl-manager')('password',options,acl,permissionDef);
+var express = require('express');
+var app = express();
+app.use(aclManger.accessController()); //add as middleware
+
+
+//protected route
+app.get('/category', function (req, resp) {
+    resp.send({ id: new Date().getTime(), message: "category access" },200);
+});
+
 ```

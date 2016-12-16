@@ -7,9 +7,8 @@ module.exports = function (secret, option, acl, permissionDef) {
     var authFactory = {
         generateToken: generateToken,
         verify: verify,
-        accessController: function(){
-			return accessController;
-		}
+        accessController: accessController
+		
 
     };
     return authFactory;
@@ -19,19 +18,24 @@ module.exports = function (secret, option, acl, permissionDef) {
 
         if (!req.headers.authorization) {
             resp.send({ status: "401", messsage: "cannot find authorization header" }, 401);
+			
             return;
         }
 
         var ary = _.split(req.headers.authorization, ' ');
         if (ary.length != 2) {
             resp.send({ status: 401, messsage: "Invalid authorization header",name:"Unauthorized access" }, 401);
+		
             return;
         }
+		
         validate(ary[1],req).then(checkAccess).then(function (req) {
-            console.log(req);
+            
             next();
         }).catch(function (err) {
             resp.send(err, 401);
+			return;
+			
             
         });
 
@@ -39,12 +43,12 @@ module.exports = function (secret, option, acl, permissionDef) {
             var deferred = q.defer();
             var p = result.payload.loggedInAs;
             var req = result.req;
-            console.log('loggedAs--',p);
+         
             if (req.resource) {
-                console.log('request path',req.resource);
+                
                 if (acl[req.resource] ){
                     ary = acl[req.resource][req.method];
-                    console.log('goood');
+                  
                     if (_checkPermission(ary,p)){
                         deferred.resolve(req);
                     } 
@@ -63,7 +67,7 @@ module.exports = function (secret, option, acl, permissionDef) {
                                     eff =v[req.method];
                                 }
                                 
-                                console.log(eff);
+                                
                             }
                         }    
                     });
@@ -91,11 +95,10 @@ module.exports = function (secret, option, acl, permissionDef) {
 
             //private methods
             function _checkPermission(ary,p){
+				console.log('_checkPermission()');
                 var ret = false;
                 _.each(ary,function(v,i){
-                    console.log('ary:',i,'P',v);
-                    console.log('ary:',i,'>',permissionDef[v]);
-                    console.log(permissionDef[v] & p);
+		
                     if (permissionDef[v] && (permissionDef[v] & p) > 0) {
                       
                        ret = true;

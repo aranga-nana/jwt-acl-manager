@@ -7,7 +7,9 @@ module.exports = function (secret, option, acl, permissionDef) {
     var authFactory = {
         generateToken: generateToken,
         verify: verify,
-        accessController: accessController
+        accessController: function(){
+			return accessController;
+		}
 		
 
     };
@@ -28,6 +30,9 @@ module.exports = function (secret, option, acl, permissionDef) {
 		
             return;
         }
+		if (req.originalUrl){
+			req.resource =   req.originalUrl;
+		}
 		
         validate(ary[1],req).then(checkAccess).then(function (req) {
             
@@ -95,7 +100,7 @@ module.exports = function (secret, option, acl, permissionDef) {
 
             //private methods
             function _checkPermission(ary,p){
-				console.log('_checkPermission()');
+				
                 var ret = false;
                 _.each(ary,function(v,i){
 		
@@ -142,7 +147,7 @@ module.exports = function (secret, option, acl, permissionDef) {
                 deferred.reject(err);
                 return;
             }
-            console.log(payload);
+            //console.log(payload);
             deferred.resolve(payload);
         });
 

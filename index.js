@@ -7,7 +7,9 @@ module.exports = function (secret, option, acl, permissionDef) {
     var authFactory = {
         generateToken: generateToken,
         verify: verify,
-        accessController: accessController
+        accessController: function(){
+			return accessController;
+		}
 
     };
     return authFactory;
@@ -15,12 +17,12 @@ module.exports = function (secret, option, acl, permissionDef) {
     //implementation
     function accessController(req, resp, next) {
 
-        if (!req.headers.Authorization) {
+        if (!req.headers.authorization) {
             resp.send({ status: "401", messsage: "cannot find authorization header" }, 401);
             return;
         }
 
-        var ary = _.split(req.headers.Authorization, ' ');
+        var ary = _.split(req.headers.authorization, ' ');
         if (ary.length != 2) {
             resp.send({ status: 401, messsage: "Invalid authorization header",name:"Unauthorized access" }, 401);
             return;

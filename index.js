@@ -32,6 +32,7 @@ module.exports = function (secret, option, acl, permissionDef) {
             next();
         }).catch(function (err) {
             resp.send(err, 401);
+            
         });
 
         function checkAccess(result) {
@@ -46,7 +47,10 @@ module.exports = function (secret, option, acl, permissionDef) {
                     console.log('goood');
                     if (_checkPermission(ary,p)){
                         deferred.resolve(req);
-                    }    
+                    } 
+                    else{
+                        deferred.reject({status:401,message:"no access right for resource",name:"Unauthorized Access"});
+                    }   
                 }else{
                     var eff=[];
                     _.each(acl,function(v,k){

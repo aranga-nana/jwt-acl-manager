@@ -4,6 +4,7 @@
 ### usage
 ```
 
+
 var permissionDef={
     'USER_ROLE':1,
     'ADMIN_ROLE':2,
@@ -53,3 +54,23 @@ app.get('/category', function (req, resp) {
 });
 
 ```
+
+### Note
+make sure token is generated using aclManger
+```
+app.post('/login', function (req, resp) {
+    var user = req.body;
+    ...
+    //do other validations
+    ...
+    var payLoad = {
+        sub: u.userId,
+        loggedInAs: u.permission
+    }
+    aclManger.generateToken(payLoad).then(function (token) {
+        resp.send({ userId: u.userId, token: token });
+    }).catch(function (e) {
+        resp.status(500).send(e);
+
+    });
+});

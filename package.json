@@ -1,6 +1,6 @@
 {
   "name": "jwt-acl-manager",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Simple access control list manager for Restful end point  ",
   "main": "index.js",
   "scripts": {

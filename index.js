@@ -10,8 +10,12 @@ module.exports = function (secret, option, acl, permissionDef) {
     var validateRequest = validateRequestCreator(acl);
 
     var authFactory = {
-        generateToken: authTokenFactory.generateToken,
-        verify: authTokenFactory.verify,
+        generateToken: function(payload){
+            return authTokenFactory.generateToken(secret,payload);
+        },
+        verify: function(token){
+            return authTokenFactory.verify(secret,token);
+        },
         accessController: function () {
             return accessController;
         }

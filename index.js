@@ -32,7 +32,7 @@ module.exports = function (secret, option, acl, permissionDef) {
         validateRequest(req).then(permissionValidator).then(function (req) {
             next();
         }).catch(function (err) {
-            resp.send(err, err.status);
+            resp.send(err,401);
         });
 
     }

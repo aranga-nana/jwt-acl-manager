@@ -1,6 +1,6 @@
 {
   "name": "jwt-acl-manager",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Simple access control list manager for Restful end point,using jwt tokens  ",
   "main": "index.js",
   "scripts": {
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/aranga-au/jwt-acl-manager#readme",
   "dependencies": {
+    "deepcopy": "^0.6.3",
     "jsonwebtoken": "^7.2.1",
     "lodash": "^4.17.2",
     "q": "^1.4.1"
